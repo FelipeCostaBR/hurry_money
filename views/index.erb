@@ -1,1 +1,22 @@
-<h1>hello world</h1>
+<div class="home-container">
+  <div class="box-loan">
+    <h1>Loan amount</h1>
+    <sup>$</sup>
+    <span class="total_loan total">500</span>
+    <%# <span >900</span> %>
+  </div>
+  <div class="box-months">
+    <button class='months' value='24'>1 month</button>
+    <button class='months' value='28'>2 month</button>
+    <button class='months' value='32'>3 month</button>
+  </div>
+  <input type="range" min="500" max="5000" value="2500" step="100" class="slider" id="myRange">
+  <div class="box-details">
+    <p>Amount Borrowed</p>
+    <span class='p-value total'>900</span>
+    <p>Fees</p>
+    <span class='p-value fee'>50</span>
+    <p>Total Repayment</p>
+    <span class='p-value total-repayment'>2500</span>
+  </div>
+</div>

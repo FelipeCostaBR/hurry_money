@@ -1,0 +1,26 @@
+<h1>Sign up to start investing or borrow money today</h1>
+<form action="/user" method="post">
+  <label for="">First name:</label>
+  <input type="text" name="firstName">
+  <label for="">Last name:</label>
+  <input type="text" name="lastName">
+  <label for="">Email:</label>
+  <input type="email" name="email">
+  <label for="">Password:</label>
+  <input type="password" name="password">
+  <label for="">phone</label>
+  <input type="tel" name="phone">
+  <label for="dateofbirth">Data of birth:</label>
+  <input type="date" name="date_birth">
+  <label for="">Address:</label>
+  <input type="text" name="address">
+  <label for="">Profile photo</label>
+  <input type="text" name="photo">
+  <div>
+    <label for="">I want invest</label>
+    <input type="radio" name="user-type" value="investor">
+    <label for="">I want borrow</label>
+    <input type="radio" name="user-type" value="debtor">
+  </div>
+  <button>Submit</button>
+</form>
