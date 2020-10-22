@@ -1,8 +1,8 @@
 require 'sinatra'
 require 'pg'
 require 'bcrypt'
-require 'sinatra/reloader' if development?
-require 'pry'
+# require 'sinatra/reloader' if development?
+# require 'pry'
 
 require_relative 'database/data_access'
 also_reload 'database/data_access'
