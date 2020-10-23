@@ -25,10 +25,21 @@ def run_sql(sql, params = [])
   end
 
     def create_investor(firstname, lastname, email, phone, dt_birth, address, photo,password_digest)
-        results = run_sql("INSERT INTO investors (firstname, lastname, email, phone, dt_birth, address, photo, password_digest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);", [firstname, lastname, email, phone, dt_birth, address, photo, password_digest])
+        return results = run_sql("INSERT INTO investors (firstname, lastname, email, phone, dt_birth, address, photo, password_digest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);", [firstname, lastname, email, phone, dt_birth, address, photo, password_digest])
     end
 
 
     def create_debtor(firstname, lastname, email, phone, dt_birth, address, photo, password_digest)
-        results = run_sql("INSERT INTO debtors (firstname, lastname, email, phone, dt_birth, address, photo, password_digest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);", [firstname, lastname, email, phone, dt_birth, address, photo, password_digest])
+        return results = run_sql("INSERT INTO debtors (firstname, lastname, email, phone, dt_birth, address, photo, password_digest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);", [firstname, lastname, email, phone, dt_birth, address, photo, password_digest])
     end
+
+    def value_total_to_borrow()
+      result =run_sql("select SUM(wallet_value) from investors;")
+      return result[0]['sum']
+    end
+
+    def apply_loan(loan_amount, fee, installments, id_debtors)
+      results = run_sql("INSERT INTO loans (money_asked, fee, installments, id_debtors) VALUES ($1, $2, $3, $4);", [loan_amount, fee, installments, id_debtors])
+    end
+
+    

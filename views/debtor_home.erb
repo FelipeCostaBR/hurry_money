@@ -1,0 +1,31 @@
+<div class="investor-home-container">
+  <h1>We have $<%= value_total_to_borrow() %> available to lend you  😃   </h1>
+  <div class="box-loan">
+    <h1>Loan amount</h1>
+    <sup>$</sup>
+    <input class="total_loan total" value="2500">
+    <%# <span >900</span> %>
+  </div>
+  <form action="/apply_loan/<%=session[:user_id][:id]%>" method="post">
+    <div class="box-months">
+      <label for="">1 month</label>
+      <label for="">2 months</label>
+      <label for="">3 months</label>
+      <input type="radio" class='months' name='installment' value='24' checked="default">
+      <input type="radio" class='months' name='installment' value='28'>
+      <input type="radio" class='months' name='installment' value='32'>
+    </div>
+    <input type="range" min="500" max="5000" value="2500" step="100" class="slider" id="myRange">
+    <div class="box-details">
+      <p>Amount Borrowed</p>
+      <input class='p-value total' name="loan_asked" value="2500">
+      <p>Fees</p>
+      <input class='p-value fee' name="fee" value="600">
+      <p>Total Repayment</p>
+      <input class='p-value total-repayment' name="total" value="3100">
+    </div>
+    <button class="apply">APPLY NOW</button>
+  </form>
+  <div class="box-loans">
+  </div>
+</div>

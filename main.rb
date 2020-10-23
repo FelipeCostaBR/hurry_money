@@ -1,11 +1,11 @@
 require 'sinatra'
 require 'pg'
 require 'bcrypt'
-# require 'sinatra/reloader' if development?
-# require 'pry'
+ require 'sinatra/reloader' if development?
+ require 'pry'
 
 require_relative 'database/data_access'
-# also_reload 'database/data_access'
+ also_reload 'database/data_access'
 
 enable :sessions
 # ################### ################### ##################
@@ -31,20 +31,21 @@ end
 
 post '/login' do
   params['user-type']== "investor" ? user = find_investor_by_email(params['email']) : user = find_debtor_by_email(params['email'])
-
   if user.empty?
     'Wrong email'
   else
     if BCrypt::Password.new(user['password_digest']).==(params['password'])
       session[:user_id] = {id: user['id'], type: user['type']}
-      redirect '/'
-  else
+       if params['user-type'] == "investor" 
+        redirect '/investor' 
+       else 
+        redirect '/debtor'
+       end
+    else
       erb :login
+    end
   end
-  end
-
 end
-
 
 post '/user' do
   password_digest = BCrypt::Password.create(params['password'])
@@ -74,8 +75,13 @@ post '/user' do
   end
   
   session[:user_id] = {id: user['id'], type: user['type']}
-    
-  redirect '/'
+
+  if params['user-type'] == "investor" 
+    redirect '/investor' 
+   else 
+    redirect '/debtor'
+   end
+  
 end
 
 delete '/logout' do
@@ -85,6 +91,22 @@ delete '/logout' do
 end
 
 
-get '/sing.up' do
-  erb :sing_up
+get '/sign.up' do
+  erb :sign_up
+end
+
+get '/debtor' do
+  erb :debtor_home
+end
+
+post '/apply_loan/:id' do
+  if params['installment'] == "24" 
+    params['installment'] = 1 
+  elsif params['installment'] == "28"
+    params['installment'] = 2 
+  else
+    params['installment'] = 3
+  end
+  apply_loan(params['loan_asked'], params['fee'], params['installment'], params['id'])
+    redirect '/debtor'
 end

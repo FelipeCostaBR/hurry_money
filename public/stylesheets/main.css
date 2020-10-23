@@ -38,7 +38,20 @@ span {
   margin: 13px;
 }
 
+a {
+  line-height: 1em;
+  display: inline-block;
+  /* text-decoration: none; */
+  margin: 1rem;
+  text-align: right;
+}
+
 .home-container {
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+}
+.investor-home-container {
   display: grid;
   justify-content: center;
   justify-items: center;
@@ -47,8 +60,9 @@ span {
 .box-months {
   justify-content: center;
   justify-items: center;
-  display: flex;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 2rem;
 }
 
 .box-loan {
@@ -66,11 +80,23 @@ span {
   text-align: center;
 }
 
-.months {
-  margin: 1rem;
-  background-color: rgb(163, 158, 158);
+/* .months_active {
+  background-color: lightgray;
+} */
+
+.login-container {
+  display: grid;
+  justify-content: left;
+  justify-items: left;
 }
 
-.months_active {
-  background-color: lightgray;
+.login-article {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+}
+
+#myRange {
+  margin-top: 2rem;
 }

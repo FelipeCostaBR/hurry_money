@@ -1,14 +1,16 @@
-<h1>login to your hurrymoney account</h1>
-<form action="/login" method='post'>
-  <input type="radio" name="user-type" value="investor"> I invest
-  <input type="radio" name="user-type" value="debtor"> I borrow
-  <div>
-    <label for="">email</label>
-    <input type="email" name="email">
-    <label for="">password</label>
-    <input type="password" name="password">
-    <button>submit</button>
-  </div>
-</form>
-<a href="/sing.up">Dont have account? sing up</a>
+<div class="login-container">
+  <h1>login to your hurrymoney account</h1>
+  <form action="/login" method='post'>
+    <input type="radio" name="user-type" value="investor"> I invest
+    <input type="radio" name="user-type" value="debtor"> I borrow
+    <article class = "login-article">
+      <label for="">email</label>
+      <input type="email" name="email">
+      <label for="">password</label>
+      <input type="password" name="password">
+      <button>submit</button>
+    </article>
+  </form>
+  <a href="/sign.up">Dont have account? sing up</a>
+</div>
 <%# for login use post because dosent show in the URL %>

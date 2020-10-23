@@ -2,7 +2,7 @@
   <div class="box-loan">
     <h1>Loan amount</h1>
     <sup>$</sup>
-    <span class="total_loan total">2500</span>
+    <input class="total_loan total" value="2500">
     <%# <span >900</span> %>
   </div>
   <div class="box-months">
@@ -13,10 +13,11 @@
   <input type="range" min="500" max="5000" value="2500" step="100" class="slider" id="myRange">
   <div class="box-details">
     <p>Amount Borrowed</p>
-    <span class='p-value total'>2500</span>
+    <input class='p-value total' name="loan_asked" value="2500">
     <p>Fees</p>
-    <span class='p-value fee'>600</span>
+    <input class='p-value fee' name="fee" value="600">
     <p>Total Repayment</p>
-    <span class='p-value total-repayment'>3100</span>
+    <input class='p-value total-repayment' name="total" value="3100">
   </div>
+  <button>APPLY NOW</button>
 </div>

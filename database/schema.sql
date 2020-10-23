@@ -10,8 +10,11 @@ CREATE TABLE investors (
  dt_birth DATE,
  address TEXT,
  photo text,
- password_digest TEXT
+ password_digest TEXT,
+ wallet_value DECIMAL
 );
+
+alter TABLE investors ADD COLUMN wallet_value DECIMAL;
 
 -- INSERT INTO investors (firstname, lastname, email, phone, dt_birth, address, photo) VALUES ('Felipe', 'Costa', 'felipe@go.co', 404433456, '1992-07-15', 'Rua Abilheira, 7 mitsutani', 'https://avatars2.githubusercontent.com/u/42413625?s=460&u=c9b18cbab7120496cf575fa3ba4556d74455aaae&v=4','123');
 
@@ -25,8 +28,11 @@ CREATE TABLE debtors (
  dt_birth DATE,
  address TEXT,
  photo text,
- password_digest TEXT
+ password_digest TEXT,
+ wallet_value DECIMAL
 );
+
+alter TABLE debtors ADD COLUMN wallet_value DECIMAL;
 
 
 -- INSERT INTO debtors (firstname, lastname, email, phone, dt_birth, address, photo) VALUES ('Sharlene', 'Piggot', 'sharlene@go.co', 445334334, '1992-02-21', 'Rua Abilheira, 7 mitsutani', 'https://avatars3.githubusercontent.com/u/43175?s=460&u=c7768417f3cf6b1ef9e00301231396f194e65aa2&v=4','123');
