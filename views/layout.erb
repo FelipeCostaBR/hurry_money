@@ -14,6 +14,7 @@
             <img src="https://www.freelogodesign.org/file/app/client/thumb/ebf87dbb-b4af-4625-a2b8-932af17af6fd_200x200.png?1603413349838" alt="logo">
           </a>
           <div class="nav_links">
+            <img src="<%current_user()['photo']%>" class="debtor_image">
             <h4>Welcome <%= current_user()['firstname'] %> <%=current_user()['lastname'] %></h4>
             <a href="/investor">
               <p>home</p>
@@ -23,6 +24,7 @@
               <img src="https://www.freelogodesign.org/file/app/client/thumb/ebf87dbb-b4af-4625-a2b8-932af17af6fd_200x200.png?1603413349838" alt="logo">
             </a>
             <div class="nav_links">
+              <img src="<%current_user()['photo']%>" class="debtor_image">
               <h4>Welcome <%= current_user()['firstname'] %> <%=current_user()['lastname'] %></h4>
               <a href="/debtor">
                 <p>home</p>

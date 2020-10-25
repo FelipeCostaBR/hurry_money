@@ -2,7 +2,7 @@ require 'sinatra'
 require 'pg'
 require 'bcrypt'
 require 'sinatra/reloader' if development?
-# require 'pry'
+#  require 'pry'
 require 'money'
 
 Money.locale_backend = :currency
