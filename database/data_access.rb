@@ -55,7 +55,7 @@ def run_sql(sql, params = [])
                 INNER JOIN debtors b ON a.id_debtors = b.id
                 LEFT JOIN installments c ON c.id_loan = a.id
                 WHERE a.id_investors is NULL
-                ORDER BY create_date,debtor_name ASC;")
+                ORDER BY a.id,create_date,debtor_name ASC;")
     end
 
     def total_loan()

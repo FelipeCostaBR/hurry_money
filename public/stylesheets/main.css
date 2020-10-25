@@ -189,7 +189,7 @@ button {
   justify-items: center;
   padding: 5px;
   height: 190px;
-  width: 145px;
+  width: fit-content;
 }
 
 .loan_profile button {
