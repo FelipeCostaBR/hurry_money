@@ -35,6 +35,8 @@
         <img src="<%= loan['photo'] %>" alt="photo" class="debtor_image">
         <p><%= loan['debtor_name'] %></p>
         <p>Needs: $<%= loan['money_asked']%></p>
+        <p>to pai in <%=loan['installments'] %> installments</p>
+        <p>This investment can return $<%=loan['fee']%></p>
         <p>has paid <%=total_loans_paid.count%> loans</p>
       </div>
       <% }%>

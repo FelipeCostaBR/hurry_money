@@ -1,5 +1,5 @@
 <main class="box-investor">
-  <h1>We have <%= total_loan()%> loans from people waiting for you 🤑 </h1>
+  <h1>We have <%= total_loan()%> loans waiting for you 🤑 </h1>
   <h2>invest and help someone today 🚀 </h2>
   <div class="box-loans">
     <% loans = loan_pending() %>
@@ -9,12 +9,12 @@
       <form action="/invest/<%=session[:user_id][:id]%>" method="post">
         <div class="loan_profile">
           <input type="hidden" name="id_loan" value="<%= loan['id_loan'] %>">
+          <input type="hidden" name="id_debtor" value="<%= loan['id_debtors'] %>">
+          <input type="hidden" name="value_loan" value="<%= loan['money_asked'] %>">
           <img src="<%= loan['photo'] %>" alt="photo" class="debtor_image">
           <p><%= loan['debtor_name'] %></p>
           <p class="money_asked">Needs: $<%= loan['money_asked']%></p>
-          <input type="hidden" name="id_debtor" value="<%= loan['id_debtors'] %>">
           <p>to pai in <%=loan['installments'] %> installments</p>
-          <input type="hidden" name="value_loan" value="<%= loan['money_asked'] %>">
           <p>This investment can return $<%=loan['fee']%></p>
           <p> has paid <%= total_loans_paid.count %> loans</p>
           <button>Invest</button>
