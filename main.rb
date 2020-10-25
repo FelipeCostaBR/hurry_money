@@ -8,7 +8,7 @@ require 'money'
 Money.locale_backend = :currency
 
 require_relative 'database/data_access'
- also_reload 'database/data_access'
+ 
 
 enable :sessions
 # ################### ################### ##################
