@@ -14,7 +14,6 @@ CREATE TABLE investors (
  wallet_value DECIMAL
 );
 
-alter TABLE investors ADD COLUMN wallet_value DECIMAL;
 
 -- INSERT INTO investors (firstname, lastname, email, phone, dt_birth, address, photo) VALUES ('Felipe', 'Costa', 'felipe@go.co', 404433456, '1992-07-15', 'Rua Abilheira, 7 mitsutani', 'https://avatars2.githubusercontent.com/u/42413625?s=460&u=c9b18cbab7120496cf575fa3ba4556d74455aaae&v=4','123');
 
@@ -31,8 +30,6 @@ CREATE TABLE debtors (
  password_digest TEXT,
  wallet_value DECIMAL
 );
-
-alter TABLE debtors ADD COLUMN wallet_value DECIMAL;
 
 
 -- INSERT INTO debtors (firstname, lastname, email, phone, dt_birth, address, photo) VALUES ('Sharlene', 'Piggot', 'sharlene@go.co', 445334334, '1992-02-21', 'Rua Abilheira, 7 mitsutani', 'https://avatars3.githubusercontent.com/u/43175?s=460&u=c7768417f3cf6b1ef9e00301231396f194e65aa2&v=4','123');
@@ -54,8 +51,6 @@ CREATE TABLE loans (
     REFERENCES investors (id)
 );
 
-INSERT INTO loans (money_asked, fee, installments, id_debtors) VALUES (1000, 200, 3, 1);
-INSERT INTO loans (money_asked, fee, installments, id_debtors) VALUES (500, 100, 2, 1);
 
 CREATE TABLE installments (
     id SERIAL PRIMARY KEY,
@@ -98,7 +93,7 @@ CREATE TRIGGER create_all_installments
 -- drop function insert_installments;
 
 -- update when investor decide to leand money 
-UPDATE loans SET id_investors = 1, money_lended = 500 WHERE id = 2;
+
 
 -- Investors: next payments into the  account
 SELECT DISTINCT a.id,c.photo,CONCAT(c.firstname, ' ',c.lastname) AS debtor_name,
@@ -110,6 +105,7 @@ b.value
         INNER JOIN installments b ON a.id = b.id_loan 
         INNER JOIN debtors c ON c.id = a.id_debtors
             WHERE a.id_investors = 6
+            AND not_paid = 0
             GROUP BY a.id,c.photo,c.firstname,c.lastname,b.value;
 
 
@@ -127,7 +123,27 @@ SELECT DISTINCT
             WHERE a.id_investors is NULL
             ORDER BY create_date,debtor_name ASC;
 
+-- debtor installment pending
+SELECT DISTINCT
+a.id AS id_loan,
+    b.id AS id_installment,
+    a.id_investors,
+    a.id_debtors,
+    b.due_date,
+    b.value,
+    paid
+        FROM loans a
+            LEFT JOIN installments b ON a.id = b.id_loan
+            WHERE a.id_debtors = 1
+            ORDER BY id_installment;
 
-SELECT * FROM loans a
-    INNER JOIN installments b ON a.id = b.id_loan
-    WHERE a.id = 26;
+
+-- debtor paid loan completely
+select (SELECT count(p.paid) from installments p WHERE p.paid = 1 AND p.id_loan = t.id_loan) = count(id_loan) AS loans_paid
+    from installments t
+    INNER JOIN loans l ON l.id = t.id_loan
+    INNER JOIN debtors d ON l.id_debtors = d.id     
+    WHERE d.id = 1
+    GROUP BY t.id_loan;
+
+

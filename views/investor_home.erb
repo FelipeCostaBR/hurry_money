@@ -4,14 +4,19 @@
   <div class="box-loans">
     <% loans = loan_pending() %>
     <% loans.each{|loan| %>
+      <%loans_paid = check_debtor_successfully_loans_paid(loan['id_debtors'])%>
+      <%total_loans_paid = loans_paid.select{|paid| paid['loans_paid'] == 't' }%>
       <form action="/invest/<%=session[:user_id][:id]%>" method="post">
         <div class="loan_profile">
           <input type="hidden" name="id_loan" value="<%= loan['id_loan'] %>">
           <img src="<%= loan['photo'] %>" alt="photo" class="debtor_image">
           <p><%= loan['debtor_name'] %></p>
-          <p>Needs: $<%= loan['money_asked']%></p>
+          <p class="money_asked">Needs: $<%= loan['money_asked']%></p>
+          <input type="hidden" name="id_debtor" value="<%= loan['id_debtors'] %>">
+          <p>to pai in <%=loan['installments'] %> installments</p>
           <input type="hidden" name="value_loan" value="<%= loan['money_asked'] %>">
-          <p>has paid <%= loan['paid']%> loans</p>
+          <p>This investment can return $<%=loan['fee']%></p>
+          <p> has paid <%= total_loans_paid.count %> loans</p>
           <button>Invest</button>
         </div>
       </form>

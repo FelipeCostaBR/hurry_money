@@ -1,8 +1,8 @@
 require 'sinatra'
 require 'pg'
 require 'bcrypt'
-#  require 'sinatra/reloader' if development?
-#  require 'pry'
+require 'sinatra/reloader' if development?
+# require 'pry'
 require 'money'
 
 Money.locale_backend = :currency
@@ -11,7 +11,6 @@ require_relative 'database/data_access'
  
 
 enable :sessions
-# ################### ################### ##################
 
 def logged_in?()
   session[:user_id]
@@ -21,22 +20,15 @@ def investor_logged_in?()
   session[:user_id][:type] == 'investor'
 end
 
-def debtor_logged_in?()
-  session[:user_id][:type] == 'debtor'
-end
-
-# can only use this if is logged in
 def current_user()
   find_user_by_id(session[:user_id])
 end
 
 
-
-# ################### ################### ##################
-
 get '/' do
   erb :index
 end
+
 
 get '/login' do
   erb :login
@@ -72,7 +64,8 @@ post '/user' do
     params['date_birth'], 
     params['address'], 
     params['photo'],
-    password_digest)
+    password_digest,
+  0)
     user = find_investor_by_email(params['email'])
   else 
     create_debtor(
@@ -83,7 +76,8 @@ post '/user' do
     params['date_birth'], 
     params['address'], 
     params['photo'],
-    password_digest)
+    password_digest,
+  0)
     user = find_debtor_by_email(params['email'])
   end
   
@@ -129,14 +123,26 @@ get '/investor' do
 end
 
 post '/invest/:id' do
-  investor_lender_loan(params['id'].to_i, params['value_loan'], params['id_loan'].to_i)
-
-  redirect '/investor'
+    if total_investor_wallet(session[:user_id][:id]).to_i > params['value_loan'].to_i
+      investor_lender_loan(params['id'], params['id_debtor'], params['value_loan'], params['id_loan'])
+      redirect '/investor'
+  end
+    erb :insufficient_funds
 end
 
+
 patch '/investor.wallet/:id' do
+
   params['button'] == 'boost' ? update_investor_wallet_boost(params['value'].gsub(/[\s,]/ ,"").gsub(/\.00/mi ,''), params['id']) : update_investor_wallet_withdraw(params['value'].gsub(/[\s,]/ ,"").gsub(/\.00/mi ,''), params['id'])
   redirect '/user.profile'
+end
+
+patch '/debtor.wallet/:id' do
+  if total_debtor_wallet(session[:user_id][:id]).to_i > params['value'].to_i
+    update_debtor_wallet_withdraw(params['value'].gsub(/[\s,]/ ,"").gsub(/\.00/mi ,''), params['id'])
+    redirect '/debtor'
+  end
+  erb :insufficient_funds 
 end
 
 get '/user.profile' do
@@ -146,4 +152,11 @@ get '/user.profile' do
   else
     erb :debtor_profile, locals: {id_debtor: session[:user_id][:id].to_i}
   end
+end
+
+
+post '/installment/:id' do
+  pay_installment(params['value'], params['id_investor'].to_i, params['id_installment'].to_i)
+  
+  redirect 'debtor'
 end

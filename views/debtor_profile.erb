@@ -1,1 +1,33 @@
-'hello debtor'
+<div class="box-debtor-profile">
+  <h1>Your wallet</h1>
+  <div class="box-total-wallet">
+    <h3 >Total available to you:</h3>
+    <p><%= Money.from_amount(total_debtor_wallet(id_debtor).to_i).format %></p>
+  </div>
+  <form action="/debtor.wallet/<%=session[:user_id][:id] %>" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <input onfocus="this.value=''" type="text" name="value" value="<%= Money.from_amount(0.to_i).format %>">
+    <button>Withdraw</button>
+  </form>
+  <h1>Your next payments due in: </h1>
+  <div class="label-installment-debtor">
+    <label for="due_date" class="">Loan number</label>
+    <label for="due_date" class="">Due Date</label>
+    <label for="value" class="">Value</label>
+    <label for="pay" class="">PAY NOW</label>
+  </div>
+  <% installments = next_payment_from_debtor(id_debtor)%>
+  <% installments.each{|installment| %>
+    <form action="/installment/<%= installment['id_installment'].to_i%>" method="post">
+      <div class="installments">
+        <p><%= installment['id_loan']%></p>
+        <p><%= installment['due_date']%></p>
+        <input type="hidden" name="date" value="<%= installment['due_date']%>">
+        <p><%= Money.from_amount(installment['value'].to_i).format %></p>
+        <input type="hidden" name="value" value="<%= installment['value']%>">
+        <button <%= installment['paid'] == '1' ? "style='color: green;'" : 'PAY' %> name="id_installment" value="<%= installment['id_installment']%>" ><%= installment['paid'] == '1' ? 'PAID' : 'PAY' %></button>
+        <input type="hidden" name="id_investor" value="<%= installment['id_investors']%>">
+      </div>
+    </form>
+    <% }%>
+  </div>

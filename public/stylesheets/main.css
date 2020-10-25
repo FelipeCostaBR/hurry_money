@@ -30,10 +30,6 @@ input {
   width: 190px;
 }
 
-nav {
-  display: flex;
-}
-
 span {
   margin: 13px;
 }
@@ -41,20 +37,55 @@ span {
 a {
   line-height: 1em;
   display: inline-block;
-  /* text-decoration: none; */
+  cursor: pointer;
   margin: 1rem;
   text-align: right;
 }
 
-.home-container {
+input {
+  margin-top: 1rem;
+}
+
+.navbar {
+  display: flex;
+  justify-items: center;
+}
+.nav_links {
+  text-align: right;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-items: center;
+}
+
+.nav_links button {
+  margin: 0;
+}
+
+.navbar img {
+  height: 7rem;
+}
+
+.navbar a {
+  margin: 0;
+}
+
+.home-container,
+.box-signup,
+.investor-home-container,
+.box-loan,
+.installments,
+.login-container,
+.box-investor,
+.box-investor-profile,
+.box-debtor-profile {
   display: grid;
   justify-content: center;
   justify-items: center;
 }
-.investor-home-container {
-  display: grid;
-  justify-content: center;
-  justify-items: center;
+
+.box-signup form {
+  width: 13rem;
 }
 
 .box-months {
@@ -64,39 +95,64 @@ a {
   grid-template-columns: 1fr 1fr 1fr;
   margin-top: 2rem;
 }
-
-.box-loan {
+.label-installment-debtor {
   display: grid;
   justify-content: center;
   justify-items: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: fit-content;
+  margin-bottom: 1rem;
+}
+
+.installments {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  margin-top: 5px;
+  padding: 1px;
+}
+
+.installments button {
+  height: min-content;
+  margin: auto;
+}
+
+.installments p {
+  margin: 0 auto;
 }
 
 .box-details,
 .box_type,
 .box-total-wallet,
-.box-boost-wallet {
+.box-boost-wallet,
+.type-options {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-content: center;
   justify-items: center;
 }
 
-.p-value {
-  text-align: center;
+.type-options {
+  margin-top: 1rem;
 }
 
-/* .months_active {
-  background-color: lightgray;
-} */
+.box-total-wallet p,
+h3,
+input {
+  margin: 0 auto;
+}
 
-.login-container,
-.box-investor {
-  /* height: 100vh;
-  width: 100vw; */
+.box-total-wallet p {
+  text-align: left;
+  margin-left: 1rem;
+}
 
-  display: grid;
-  justify-content: center;
-  justify-items: center;
+.box-total-wallet input,
+button {
+  margin-top: 1rem;
+}
+
+.p-value {
+  text-align: center;
 }
 
 .login-article {
@@ -106,12 +162,21 @@ a {
   justify-items: center;
 }
 
+.login-article label {
+  margin: auto;
+  margin-left: 1rem;
+}
+
+.login-article input {
+  margin: auto;
+}
+
 #myRange {
   margin-top: 2rem;
 }
 
 .debtor_image {
-  width: 48px;
+  width: 5rem;
   border-radius: 50%;
 }
 
@@ -123,37 +188,32 @@ a {
   justify-content: center;
   justify-items: center;
   padding: 5px;
-  height: 155px;
-  width: 115px;
+  height: 190px;
+  width: 145px;
+}
+
+.loan_profile button {
+  margin: 0 auto;
 }
 
 .box-loans,
 .box-next_payments {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .password-login {
   margin-left: 1rem;
 }
 
-.box-investor-profile {
-  display: grid;
-  justify-content: center;
-  justify-items: center;
-}
-
 .loan_profile p {
   margin: 0;
-}
-
-.loan_profile {
-  width: 145px;
 }
 
 .total_wallet {
   text-align: center;
 }
 
-input {
-  margin-top: 1rem;
+a {
+  cursor: pointer;
 }

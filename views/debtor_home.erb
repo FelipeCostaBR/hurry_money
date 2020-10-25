@@ -1,8 +1,7 @@
 <div class="investor-home-container">
-  <h1>We have $<%= value_total_to_borrow() %> available to lend you  😃   </h1>
+  <h1>We have <%= Money.from_amount(value_total_to_borrow().to_i).format %> available to lend you  😃   </h1>
   <div class="box-loan">
     <h1>Loan amount</h1>
-    <sup>$</sup>
     <input class="total_loan total" value="2500">
   </div>
   <form action="/apply_loan/<%=session[:user_id][:id]%>" method="post">
@@ -25,14 +24,18 @@
     </div>
     <button class="apply">APPLY NOW</button>
   </form>
+  <h2>You may want to sign up as investor and help those people bellow</h2>
   <div class="box-loans">
     <% loans = loan_pending() %>
     <% loans.each{|loan| %>
+      <%next if loan['id_debtors'] == session[:user_id][:id]%>
+      <%loans_paid = check_debtor_successfully_loans_paid(loan['id_debtors'])%>
+      <%total_loans_paid = loans_paid.select{|paid| paid['loans_paid'] == 't' }%>
       <div class="loan_profile">
         <img src="<%= loan['photo'] %>" alt="photo" class="debtor_image">
         <p><%= loan['debtor_name'] %></p>
         <p>Needs: $<%= loan['money_asked']%></p>
-        <p>has paid <%= loan['paid']%> loans</p>
+        <p>has paid <%=total_loans_paid.count%> loans</p>
       </div>
       <% }%>
     </div>

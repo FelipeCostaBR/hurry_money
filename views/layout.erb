@@ -9,33 +9,53 @@
   <body>
     <% if logged_in? %>
       <nav class="navbar">
-        <h4>Welcome <%= current_user()['firstname'] %> <%= session[:user_id][:type] %></h4>
         <% if investor_logged_in? %>
           <a href="/investor">
             <img src="https://www.freelogodesign.org/file/app/client/thumb/ebf87dbb-b4af-4625-a2b8-932af17af6fd_200x200.png?1603413349838" alt="logo">
           </a>
-        <% else %>
-          <a href="/debtor">
+          <div class="nav_links">
+            <h4>Welcome <%= current_user()['firstname'] %> <%=current_user()['lastname'] %></h4>
+            <a href="/investor">
+              <p>home</p>
+            </a>
+          <% else %>
+            <a href="/debtor">
+              <img src="https://www.freelogodesign.org/file/app/client/thumb/ebf87dbb-b4af-4625-a2b8-932af17af6fd_200x200.png?1603413349838" alt="logo">
+            </a>
+            <div class="nav_links">
+              <h4>Welcome <%= current_user()['firstname'] %> <%=current_user()['lastname'] %></h4>
+              <a href="/debtor">
+                <p>home</p>
+              </a>
+            <% end%>
+            <a href="/user.profile">
+              <p>Account</p>
+            </a>
+            <form action="/logout" method="post">
+              <input type="hidden" name="_method" value="delete">
+              <button class="log out">
+                <p>log out</p>
+              </button>
+            </form>
+          </div>
+        </nav>
+        <%= yield %>
+      <% else %>
+        <nav class="navbar">
+          <a href="/">
             <img src="https://www.freelogodesign.org/file/app/client/thumb/ebf87dbb-b4af-4625-a2b8-932af17af6fd_200x200.png?1603413349838" alt="logo">
           </a>
-        <% end%>
-        <a href="/user.profile">profile</a>
-        <form action="/logout" method="post">
-          <input type="hidden" name="_method" value="delete">
-          <button class="log out">log out</button>
-        </form>
-      </nav>
-      <%= yield %>
-    <% else %>
-      <nav class="navbar">
-        <a href="/">
-          <img src="https://www.freelogodesign.org/file/app/client/thumb/ebf87dbb-b4af-4625-a2b8-932af17af6fd_200x200.png?1603413349838" alt="logo">
-        </a>
-        <a href="/login">login</a>
-        <a href="/sign.up"> sign up</a>
-      </nav>
-      <%= yield %>
-    <% end %>
-    <script src="/javascripts/application.js"></script>
-  </body>
-</html>
+          <div class="nav_links">
+            <a href="/login">
+              <p>login</p>
+            </a>
+            <a href="/sign.up">
+              <p>sign up</p>
+            </a>
+          </div>
+        </nav>
+        <%= yield %>
+      <% end %>
+      <script src="/javascripts/application.js"></script>
+    </body>
+  </html>

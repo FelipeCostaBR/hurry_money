@@ -17,13 +17,14 @@
   <div class="box-next_payments">
     <% installments = next_payment_into_investor(id_investor) %>
     <% installments.each{|installment| %>
+      <% next if installment['not_paid'] == '0'%>
       <div class="loan_profile">
         <img src="<%= installment['photo'] %>" alt="photo" class="debtor_image">
-        <p><strong> <%= installment['debtor_name'][0..30] %></strong></p>
-        <p><strong> Paid:</strong> <%= installment['paid']%></p>
-        <p><strong>pending:</strong> <%= installment['not_paid']%> installments</p>
-        <p><strong>next payment:</strong> <%= installment['due_date']%></p>
-        <p><strong>Value:</strong> <%= Money.new(installment['value'].to_i, 'AUD').format %> </p>
+        <p> <%= installment['debtor_name'][0..30] %></p>
+        <p> Paid: <%= installment['paid']%></p>
+        <p>pending: <%= installment['not_paid']%> installments</p>
+        <p>next payment: <%= installment['due_date']%></p>
+        <p>Total: <%= Money.from_amount(installment['value'].to_i).format %> </p>
       </div>
       <% }%>
     </div>
