@@ -1,0 +1,29 @@
+<div class="box-investor-profile">
+  <h1>Your wallet</h1>
+  <div class="box-total-wallet">
+    <h3>Total available to invest:</h3>
+    <h3 style="color: blue;"> <%= Money.from_amount(total_investor_wallet(id_investor).to_i).format %></h3>
+  </div>
+  <h3>Boost your investment wallet</h3>
+  <form action="/investor.wallet/<%= id_investor %>" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <div class="box-boost-wallet">
+      <button name="button" value="boost">Boost</button>
+      <button name="button" value="withdraw">Withdraw</button>
+    </div>
+    <input class="total_wallet" onfocus="this.value=''" name="value" value="<%= Money.from_amount(0).format %>">
+  </form>
+  <h1>Next payments into your account:</h1>
+  <div class="box-next_payments">
+    <% installments = next_payment_into_investor(id_investor) %>
+    <% installments.each{|installment| %>
+      <div class="loan_profile">
+        <img src="<%= installment['photo'] %>" alt="photo" class="debtor_image">
+        <p><strong> <%= installment['debtor_name'][0..30] %></strong></p>
+        <p><strong> Paid:</strong> <%= installment['paid']%></p>
+        <p><strong>pending:</strong> <%= installment['not_paid']%> installments</p>
+        <p><strong>next payment:</strong> <%= installment['due_date']%></p>
+        <p><strong>Value:</strong> <%= Money.new(installment['value'].to_i, 'AUD').format %> </p>
+      </div>
+      <% }%>
+    </div>

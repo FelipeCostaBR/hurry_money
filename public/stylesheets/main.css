@@ -71,9 +71,14 @@ a {
   justify-items: center;
 }
 
-.box-details {
+.box-details,
+.box_type,
+.box-total-wallet,
+.box-boost-wallet {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  justify-items: center;
 }
 
 .p-value {
@@ -84,10 +89,14 @@ a {
   background-color: lightgray;
 } */
 
-.login-container {
+.login-container,
+.box-investor {
+  /* height: 100vh;
+  width: 100vw; */
+
   display: grid;
-  justify-content: left;
-  justify-items: left;
+  justify-content: center;
+  justify-items: center;
 }
 
 .login-article {
@@ -99,4 +108,52 @@ a {
 
 #myRange {
   margin-top: 2rem;
+}
+
+.debtor_image {
+  width: 48px;
+  border-radius: 50%;
+}
+
+.loan_profile {
+  border: black 1px solid;
+  margin: 5px;
+  display: grid;
+  font-size: 10px;
+  justify-content: center;
+  justify-items: center;
+  padding: 5px;
+  height: 155px;
+  width: 115px;
+}
+
+.box-loans,
+.box-next_payments {
+  display: flex;
+}
+
+.password-login {
+  margin-left: 1rem;
+}
+
+.box-investor-profile {
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+}
+
+.loan_profile p {
+  margin: 0;
+}
+
+.loan_profile {
+  width: 145px;
+}
+
+.total_wallet {
+  text-align: center;
+}
+
+input {
+  margin-top: 1rem;
 }

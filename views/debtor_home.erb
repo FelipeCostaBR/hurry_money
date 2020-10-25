@@ -4,7 +4,6 @@
     <h1>Loan amount</h1>
     <sup>$</sup>
     <input class="total_loan total" value="2500">
-    <%# <span >900</span> %>
   </div>
   <form action="/apply_loan/<%=session[:user_id][:id]%>" method="post">
     <div class="box-months">
@@ -27,5 +26,14 @@
     <button class="apply">APPLY NOW</button>
   </form>
   <div class="box-loans">
+    <% loans = loan_pending() %>
+    <% loans.each{|loan| %>
+      <div class="loan_profile">
+        <img src="<%= loan['photo'] %>" alt="photo" class="debtor_image">
+        <p><%= loan['debtor_name'] %></p>
+        <p>Needs: $<%= loan['money_asked']%></p>
+        <p>has paid <%= loan['paid']%> loans</p>
+      </div>
+      <% }%>
+    </div>
   </div>
-</div>

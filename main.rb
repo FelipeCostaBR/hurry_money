@@ -3,6 +3,9 @@ require 'pg'
 require 'bcrypt'
  require 'sinatra/reloader' if development?
  require 'pry'
+require 'money'
+
+Money.locale_backend = :currency
 
 require_relative 'database/data_access'
  also_reload 'database/data_access'
@@ -14,10 +17,20 @@ def logged_in?()
   session[:user_id]
 end
 
+def investor_logged_in?()
+  session[:user_id][:type] == 'investor'
+end
+
+def debtor_logged_in?()
+  session[:user_id][:type] == 'debtor'
+end
+
 # can only use this if is logged in
 def current_user()
   find_user_by_id(session[:user_id])
 end
+
+
 
 # ################### ################### ##################
 
@@ -109,4 +122,28 @@ post '/apply_loan/:id' do
   end
   apply_loan(params['loan_asked'], params['fee'], params['installment'], params['id'])
     redirect '/debtor'
+end
+
+get '/investor' do
+  erb :investor_home
+end
+
+post '/invest/:id' do
+  investor_lender_loan(params['id'].to_i, params['value_loan'], params['id_loan'].to_i)
+
+  redirect '/investor'
+end
+
+patch '/investor.wallet/:id' do
+  params['button'] == 'boost' ? update_investor_wallet_boost(params['value'].gsub(/[\s,]/ ,"").gsub(/\.00/mi ,''), params['id']) : update_investor_wallet_withdraw(params['value'].gsub(/[\s,]/ ,"").gsub(/\.00/mi ,''), params['id'])
+  redirect '/user.profile'
+end
+
+get '/user.profile' do
+   
+  if session[:user_id][:type] == 'investor'
+    erb :investor_profile, locals: {id_investor: session[:user_id][:id].to_i}
+  else
+    erb :debtor_profile, locals: {id_debtor: session[:user_id][:id].to_i}
+  end
 end

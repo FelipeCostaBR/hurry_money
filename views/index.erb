@@ -6,9 +6,12 @@
     <%# <span >900</span> %>
   </div>
   <div class="box-months">
-    <button class='months months_active' value='24'>1 month</button>
-    <button class='months' value='28'>2 month</button>
-    <button class='months' value='32'>3 month</button>
+    <label for="">1 month</label>
+    <label for="">2 months</label>
+    <label for="">3 months</label>
+    <input type="radio" class='months' name='installment' value='24' checked="default">
+    <input type="radio" class='months' name='installment' value='28'>
+    <input type="radio" class='months' name='installment' value='32'>
   </div>
   <input type="range" min="500" max="5000" value="2500" step="100" class="slider" id="myRange">
   <div class="box-details">
@@ -19,5 +22,5 @@
     <p>Total Repayment</p>
     <input class='p-value total-repayment' name="total" value="3100">
   </div>
-  <button>APPLY NOW</button>
+  <a href="login"><button>APPLY NOW</button></a>
 </div>

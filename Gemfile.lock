@@ -2,6 +2,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     bcrypt (3.1.16)
+    concurrent-ruby (1.1.7)
+    i18n (1.8.5)
+      concurrent-ruby (~> 1.0)
+    money (6.13.8)
+      i18n (>= 0.6.4, <= 2)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     pg (1.2.3)
@@ -21,6 +26,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
+  money
   pg
   sinatra
 

@@ -1,15 +1,19 @@
 <div class="login-container">
   <h1>login to your hurrymoney account</h1>
   <form action="/login" method='post'>
-    <input type="radio" name="user-type" value="investor"> I invest
-    <input type="radio" name="user-type" value="debtor"> I borrow
-    <article class = "login-article">
-      <label for="">email</label>
+    <div class="box_type">
+      <input type="radio" name="user-type" value="investor" checked="default">
+      <input type="radio" name="user-type" value="debtor">
+      <p>I invest</p>
+      <p>I borrow</p>
+    </div>
+    <div class = "login-article">
+      <label for="">email: </label>
       <input type="email" name="email">
-      <label for="">password</label>
+      <label class="password-login" for="">password: </label>
       <input type="password" name="password">
       <button>submit</button>
-    </article>
+    </div>
   </form>
   <a href="/sign.up">Dont have account? sing up</a>
 </div>

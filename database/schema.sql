@@ -98,17 +98,36 @@ CREATE TRIGGER create_all_installments
 -- drop function insert_installments;
 
 -- update when investor decide to leand money 
-UPDATE loans SET id_investors = 1, money_lended = 500 WHERE ID = 2;
+UPDATE loans SET id_investors = 1, money_lended = 500 WHERE id = 2;
 
--- Investors: next payments into the account account
-SELECT DISTINCT a.id,CONCAT(c.firstname, ' ',c.lastname) AS debtor_name ,
-ROUND((SELECT SUM(value) FROM installments WHERE paid = 0 AND id_loan = a.id),2) AS value_pending, 
-(SELECT count(paid) FROM installments WHERE paid = 0 AND id_loan = a.id ) AS not_paid,
+-- Investors: next payments into the  account
+SELECT DISTINCT a.id,c.photo,CONCAT(c.firstname, ' ',c.lastname) AS debtor_name,
 (SELECT count(paid) FROM installments WHERE paid = 1 AND id_loan = a.id ) AS paid,
-(SELECT min(due_date) FROM installments WHERE paid = 0 AND id_loan = a.id ) AS due_date
+(SELECT count(paid) FROM installments WHERE paid = 0 AND id_loan = a.id ) AS not_paid,
+(SELECT min(due_date) FROM installments WHERE paid = 0 AND id_loan = a.id ) AS due_date,
+b.value
     FROM loans a 
         INNER JOIN installments b ON a.id = b.id_loan 
         INNER JOIN debtors c ON c.id = a.id_debtors
-        WHERE a.id_investors = 1
-        GROUP BY a.id,c.firstname,c.lastname;
+            WHERE a.id_investors = 6
+            GROUP BY a.id,c.photo,c.firstname,c.lastname,b.value;
 
+
+-- show loan pendenting
+SELECT DISTINCT
+    a.id AS id_loan,
+    b.id AS id_debtors,
+    CONCAT(b.firstname, ' ',b.lastname) AS debtor_name,
+    a.money_asked, a.create_date,
+    (SELECT count(paid) FROM installments WHERE paid = 1 AND id_loan = a.id ) AS paid,
+    a.installments, b.photo
+        FROM loans a
+            INNER JOIN debtors b ON a.id_debtors = b.id
+            LEFT JOIN installments c ON c.id_loan = a.id
+            WHERE a.id_investors is NULL
+            ORDER BY create_date,debtor_name ASC;
+
+
+SELECT * FROM loans a
+    INNER JOIN installments b ON a.id = b.id_loan
+    WHERE a.id = 26;

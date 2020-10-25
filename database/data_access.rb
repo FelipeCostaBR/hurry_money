@@ -25,21 +25,71 @@ def run_sql(sql, params = [])
   end
 
     def create_investor(firstname, lastname, email, phone, dt_birth, address, photo,password_digest)
-        return results = run_sql("INSERT INTO investors (firstname, lastname, email, phone, dt_birth, address, photo, password_digest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);", [firstname, lastname, email, phone, dt_birth, address, photo, password_digest])
+        return run_sql("INSERT INTO investors (firstname, lastname, email, phone, dt_birth, address, photo, password_digest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);", [firstname, lastname, email, phone, dt_birth, address, photo, password_digest])
     end
 
 
     def create_debtor(firstname, lastname, email, phone, dt_birth, address, photo, password_digest)
-        return results = run_sql("INSERT INTO debtors (firstname, lastname, email, phone, dt_birth, address, photo, password_digest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);", [firstname, lastname, email, phone, dt_birth, address, photo, password_digest])
+        return  run_sql("INSERT INTO debtors (firstname, lastname, email, phone, dt_birth, address, photo, password_digest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);", [firstname, lastname, email, phone, dt_birth, address, photo, password_digest])
     end
 
     def value_total_to_borrow()
-      result =run_sql("select SUM(wallet_value) from investors;")
+      result =run_sql("SELECT SUM(wallet_value) FROM investors;")
       return result[0]['sum']
     end
 
     def apply_loan(loan_amount, fee, installments, id_debtors)
-      results = run_sql("INSERT INTO loans (money_asked, fee, installments, id_debtors) VALUES ($1, $2, $3, $4);", [loan_amount, fee, installments, id_debtors])
+      return run_sql("INSERT INTO loans (money_asked, fee, installments, id_debtors) VALUES ($1, $2, $3, $4);", [loan_amount, fee, installments, id_debtors])
     end
 
+    def loan_pending()
+      return run_sql("SELECT DISTINCT
+        a.id AS id_loan,
+        b.id AS id_debtors,
+        CONCAT(b.firstname, ' ',b.lastname) AS debtor_name,
+        a.money_asked, a.create_date,
+        (SELECT count(paid) FROM installments WHERE paid = 1 AND id_loan = a.id ) AS paid,
+        a.installments, b.photo
+            FROM loans a
+                INNER JOIN debtors b ON a.id_debtors = b.id
+                LEFT JOIN installments c ON c.id_loan = a.id
+                WHERE a.id_investors is NULL
+                ORDER BY create_date,debtor_name ASC;")
+    end
+
+    def total_loan()
+       result = run_sql("SELECT count(id) FROM loans WHERE id_investors is NULL;")
+       return result[0]['count']
+    end
+
+    def investor_lender_loan(id_investor, value_loan, id_loan)
+      update_investor_wallet_withdraw(value_loan, id_investor) 
+      return run_sql("UPDATE loans SET id_investors = $1, money_lended = $2 WHERE id = $3;",[id_investor, value_loan, id_loan] )
+       
+    end
+
+    def next_payment_into_investor(id_investor)
+      return run_sql("SELECT DISTINCT a.id,c.photo,CONCAT(c.firstname, ' ',c.lastname) AS debtor_name,
+      (SELECT count(paid) FROM installments WHERE paid = 1 AND id_loan = a.id ) AS paid,
+      (SELECT count(paid) FROM installments WHERE paid = 0 AND id_loan = a.id ) AS not_paid,
+      (SELECT min(due_date) FROM installments WHERE paid = 0 AND id_loan = a.id ) AS due_date,
+      b.value
+          FROM loans a 
+              INNER JOIN installments b ON a.id = b.id_loan 
+              INNER JOIN debtors c ON c.id = a.id_debtors
+                  WHERE a.id_investors = $1
+                  GROUP BY a.id,c.photo,c.firstname,c.lastname,b.value;", [id_investor])
+    end
     
+    def total_investor_wallet(id_investor)
+      result = run_sql("SELECT wallet_value FROM investors WHERE id = $1;", [id_investor])
+      return result[0]['wallet_value']
+    end
+
+    def update_investor_wallet_boost(new_value, id_investor)
+      return run_sql("UPDATE investors SET wallet_value = (wallet_value) + $1  WHERE id = $2;", [new_value.to_i, id_investor])
+    end
+
+    def update_investor_wallet_withdraw(new_value, id_investor)
+      return run_sql("UPDATE investors SET wallet_value = (wallet_value) - $1  WHERE id = $2;", [new_value.to_i, id_investor])
+    end

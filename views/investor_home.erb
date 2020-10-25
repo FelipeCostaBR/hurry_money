@@ -1,0 +1,21 @@
+<main class="box-investor">
+  <h1>We have <%= total_loan()%> loans from people waiting for you 🤑 </h1>
+  <h2>invest and help someone today 🚀 </h2>
+  <div class="box-loans">
+    <% loans = loan_pending() %>
+    <% loans.each{|loan| %>
+      <form action="/invest/<%=session[:user_id][:id]%>" method="post">
+        <div class="loan_profile">
+          <input type="hidden" name="id_loan" value="<%= loan['id_loan'] %>">
+          <img src="<%= loan['photo'] %>" alt="photo" class="debtor_image">
+          <p><%= loan['debtor_name'] %></p>
+          <p>Needs: $<%= loan['money_asked']%></p>
+          <input type="hidden" name="value_loan" value="<%= loan['money_asked'] %>">
+          <p>has paid <%= loan['paid']%> loans</p>
+          <button>Invest</button>
+        </div>
+      </form>
+      <% }%>
+    </div>
+  </div>
+</main>
